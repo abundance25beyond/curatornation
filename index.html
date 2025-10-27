@@ -446,6 +446,25 @@
     }
   }
 </script>
+<script>
+  document.getElementById("image-generator-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const prompt = document.getElementById("prompt").value.trim();
+    const negativePrompt = document.getElementById("negativePrompt").value.trim();
+    const artStyle = document.getElementById("artStyle").value;
+    const shape = document.getElementById("shape").value;
+    const numImages = document.getElementById("numImages").value;
+
+    const fullPrompt = `Prompt: ${prompt}\nArt Style: ${artStyle}\nShape: ${shape}\nNumber of Images: ${numImages}` +
+      (negativePrompt ? `\nExclude: ${negativePrompt}` : "");
+
+    document.getElementById("generatedPrompt").innerText = fullPrompt;
+
+    // Optional: route this fullPrompt to a hidden input that Perchance uses
+    // document.getElementById("perchancePromptInput").value = fullPrompt;
+  });
+</script>
 
 </body>
 </html>
