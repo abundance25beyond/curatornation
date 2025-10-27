@@ -79,7 +79,7 @@
         </main>
 
         <footer class="text-center mt-16 text-gray-500 text-sm">
-          <p>Powered by Google Gemini. Reimagined by TheCuratedPixel.</p>
+          <p> Reimagined by TheCuratedPixel.</p>
            <p class="mt-1">
              <a href="https://perchance.org/s7t5uh2quz" target="_blank" rel="noopener noreferrer" class="hover:text-purple-400 transition-colors">
                 Perchance Profile
@@ -202,68 +202,7 @@
       const DiceIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.121 15.536A9.004 9.004 0 015.536 6.879m9.586 8.657a9.004 9.004 0 00-8.657-9.586m11.314 4.243a9.002 9.002 0 00-4.243-4.243m4.243 4.243L15.536 6.88M6.88 15.536l-4.243-4.243" /><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15" /><circle cx="12" cy="12" r="2" /><circle cx="6" cy="6" r="1" /><circle cx="18" cy="18" r="1" /></svg>`;
       const LoadingSpinner = (className = 'h-12 w-12 text-purple-400') => `<svg class="animate-spin ${className}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
       
-      // --- GEMINI SERVICE ---
-      async function generateImages(options) {
-        try {
-          if (!process.env.API_KEY) {
-            throw new Error("API_KEY environment variable not set.");
-          }
-          const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
-          const finalPrompt = options.artStyle.prompt.replace('[prompt]', options.prompt);
-          let fullPrompt = finalPrompt;
-          if (options.negativePrompt) {
-              fullPrompt += ` --no ${options.negativePrompt}`;
-          }
-          if (options.artStyle.negativePrompt) {
-              fullPrompt += ` --no ${options.artStyle.negativePrompt.replace('[negative]', '')}`;
-          }
-
-          const getChunks = (num) => {
-            const chunks = [];
-            let remaining = num;
-          
-            for (const chunk of SUPPORTED_CHUNK_SIZES) {
-              while (remaining >= chunk) {
-                chunks.push(chunk);
-                remaining -= chunk;
-              }
-            }
-            return chunks;
-          };
-
-          const imageChunks = getChunks(options.numImages);
-
-          const promises = imageChunks.map(chunkSize => 
-              ai.models.generateImages({
-                  model: MODEL_NAME,
-                  prompt: fullPrompt,
-                  config: {
-                    numberOfImages: chunkSize,
-                    outputMimeType: 'image/jpeg',
-                    aspectRatio: options.shape.aspectRatio,
-                  },
-              })
-          );
-
-          const responses = await Promise.all(promises);
-          
-          const allImages = responses.flatMap(response => 
-            response.generatedImages.map(img => ({
-              src: `data:image/jpeg;base64,${img.image.imageBytes}`,
-              prompt: fullPrompt
-            }))
-          );
-
-          return allImages;
-
-        } catch (error) {
-          console.error("Error generating images:", error);
-          if (error instanceof Error) {
-              throw new Error(`Failed to generate images: ${error.message}`);
-          }
-          throw new Error("An unknown error occurred during image generation.");
-        }
+     
       }
 
       // --- DOM ELEMENTS ---
