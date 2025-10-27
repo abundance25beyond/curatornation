@@ -55,7 +55,88 @@
         </header>
 
         <main>
-         
+         <form id="image-generator-form" class="p-6 bg-gray-800/50 rounded-2xl border border-gray-700 shadow-lg space-y-6">
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label for="description" class="block text-sm font-medium text-gray-300">
+                    Description
+                  </label>
+                  <button type="button" id="random-prompt-btn" class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white transition-colors">
+                    <span id="dice-icon-container"></span>
+                    Random prompt
+                  </button>
+                </div>
+                <textarea
+                  id="description"
+                  class="w-full h-28 p-3 bg-gray-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 placeholder-gray-500"
+                  required
+                ></textarea>
+              </div>
+
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <label for="negative" class="block text-sm font-medium text-gray-300">
+                    Anti-Description (optional)
+                  </label>
+                  <div class="tooltip">
+                    <span id="info-icon-container"></span>
+                    <span class="tooltip-text">Describe what you *don't* want to see. For example, if you're getting extra limbs, you could add "extra limbs, malformed".</span>
+                  </div>
+                </div>
+                <input
+                  id="negative"
+                  type="text"
+                  placeholder="e.g., blurry, extra limbs, text"
+                  class="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 placeholder-gray-500"
+                />
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label for="artStyle" class="block text-sm font-medium text-gray-300 mb-2">
+                  Art Style
+                </label>
+                <select
+                  id="artStyle"
+                  class="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
+                >
+                </select>
+              </div>
+
+              <div>
+                <label for="shape" class="block text-sm font-medium text-gray-300 mb-2">
+                  Shape & Ratio
+                </label>
+                <select
+                  id="shape"
+                  class="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
+                >
+                </select>
+              </div>
+
+              <div>
+                <label for="numImages" class="block text-sm font-medium text-gray-300 mb-2">
+                  How many?
+                </label>
+                <select
+                  id="numImages"
+                  class="w-full p-3 bg-gray-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
+                >
+                </select>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button
+                type="submit"
+                id="generate-btn"
+                class="w-full flex items-center justify-center gap-3 py-3 px-6 text-lg font-semibold text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg shadow-lg hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-500/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+              >
+              </button>
+            </div>
+          </form>
 
           <div id="error-container" class="hidden mt-8 text-center bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg">
             <p class="font-semibold">Generation Failed</p>
@@ -371,6 +452,33 @@
 <script type="text/javascript" src="https://perchance.org/js/plugin-loader.js"></script>
 <script type="text/perchance">
   generateHTML = {import:s7t5uh2quz}
+</script>
+<script type="module">
+  // This loads your generator framework from Perchance
+  generateHTML = {import:t2i-framework-plugin-v2}  // Perchance image generator framework
+  generatorStats = {import:generator-stats-plugin}
+  background = {import:background-image-plugin}
+  font = {import:font-plugin}
+  tooltip = {import:tooltip-plugin}
+  favicon = {import:favicon-plugin}
+  createMediaGallery = {import:create-media-gallery-plugin}
+
+  // Configuration
+  settings = {
+    framework: {
+      promptInputSelector: "#prompt",
+      negativePromptInputSelector: "#antiPrompt",
+      styleSelector: "#style",
+      shapeSelector: "#shape",
+      numberSelector: "#number",
+      generateButtonSelector: "#generate-btn",
+      outputContainerSelector: "#image-output"
+    },
+    plugin: {
+      userId: "thecuratedpixel", // your Perchance username
+      pluginName: "t2i"
+    }
+  }
 </script>
 
 </body>
