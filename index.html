@@ -451,50 +451,27 @@
   }
 </script>
 <script>
-  document.getElementById("image-generator-form").addEventListener("submit", function (e) {
-    e.preventDefault();
+document.getElementById("image-generator-form").addEventListener("submit", function(event) {
+  event.preventDefault();
 
-    const prompt = document.getElementById("prompt").value.trim();
-    const negativePrompt = document.getElementById("negativePrompt").value.trim();
-    const artStyle = document.getElementById("artStyle").value;
-    const shape = document.getElementById("shape").value;
-    const numImages = document.getElementById("numImages").value;
+  const prompt = document.getElementById("prompt").value;
+  const negativePrompt = document.getElementById("negativePrompt").value;
+  const artStyle = document.getElementById("artStyle").value;
+  const shape = document.getElementById("shape").value;
+  const numImages = document.getElementById("numImages").value;
 
-    const fullPrompt = `Prompt: ${prompt}\nArt Style: ${artStyle}\nShape: ${shape}\nNumber of Images: ${numImages}` +
-      (negativePrompt ? `\nExclude: ${negativePrompt}` : "");
+  const iframe = document.getElementById("perchance-frame");
+  const perchanceWindow = iframe.contentWindow;
 
-    document.getElementById("generatedPrompt").innerText = fullPrompt;
+  const combinedPrompt = `[${prompt}] | Style: ${artStyle} | Shape: ${shape} | Images: ${numImages}` + 
+                         (negativePrompt ? ` | Exclude: ${negativePrompt}` : "");
 
-    // Optional: route this fullPrompt to a hidden input that Perchance uses
-    // document.getElementById("perchancePromptInput").value = fullPrompt;
-  });
-</script>
-<script>
-  document.getElementById("image-generator-form").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const prompt = document.getElementById("prompt").value.trim();
-    const negative = document.getElementById("negativePrompt").value.trim();
-    const artStyle = document.getElementById("artStyle").value;
-    const shape = document.getElementById("shape").value;
-    const numImages = document.getElementById("numImages").value;
-
-    if (!prompt) {
-      alert("Please enter a description.");
-      return;
-    }
-
-    const params = new URLSearchParams();
-    params.set("prompt", prompt);
-    if (negative) params.set("negative", negative);
-    params.set("style", artStyle);
-    params.set("shape", shape);
-    params.set("num", numImages);
-
-    const perchanceUrl = "https://perchance.org/s7t5uh2quz";
-    window.open(`${perchanceUrl}?${params.toString()}`, "_blank");
-  });
+  // Push prompt into Perchance and trigger generate
+  perchanceWindow.input_prompt = combinedPrompt;
+  if (perchanceWindow.generate) perchanceWindow.generate();
+});
 </script>
 
-</body>
+</body><iframe id="perchance-frame" src="https://perchance.org/s7t5uh2quz" style="display:none;"></iframe>
+
 </html>
