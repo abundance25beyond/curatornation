@@ -471,6 +471,59 @@ document.getElementById("image-generator-form").addEventListener("submit", funct
   if (perchanceWindow.generate) perchanceWindow.generate();
 });
 </script>
+<script>
+  document.getElementById("image-generator-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const prompt = document.getElementById("prompt").value.trim();
+    const negative = document.getElementById("negativePrompt").value.trim();
+    const artStyle = document.getElementById("artStyle").value;
+    const shape = document.getElementById("shape").value;
+    const numImages = document.getElementById("numImages").value;
+
+    if (!prompt) {
+      alert("Please enter a description.");
+      return;
+    }
+
+    const combinedPrompt = `Prompt: ${prompt} | Art Style: ${artStyle} | Shape: ${shape} | Images: ${numImages}` + 
+                           (negative ? ` | Exclude: ${negative}` : "");
+
+    const iframe = document.getElementById("perchance-frame");
+    const perchanceWindow = iframe.contentWindow;
+
+    try {
+      perchanceWindow.input_prompt = combinedPrompt;
+      if (typeof perchanceWindow.generate === "function") {
+        perchanceWindow.generate();
+      } else {
+        alert("Generate function not found in the embedded generator.");
+      }
+    } catch (e) {
+      console.error("Could not communicate with Perchance iframe:", e);
+    }
+  });
+</script>
+<form id="image-generator-form" class="p-6 bg-gray-800/50 rounded-2xl border border-gray-700 shadow-lg space-y-6">
+  <div>
+    <label for="prompt" class="block mb-1 text-sm font-medium text-white">Description</label>
+    <textarea id="prompt" name="prompt" rows="3" class="w-full p-2 text-black rounded-lg"></textarea>
+  </div>
+
+  <div>
+    <label for="negativePrompt" class="block mb-1 text-sm font-medium text-white">Anti-Description (optional)</label>
+    <input type="text" id="negativePrompt" name="negativePrompt" class="w-full p-2 text-black rounded-lg" />
+  </div>
+
+  <div class="flex space-x-4">
+    <div class="flex-1">
+      <label for="artStyle" class="block mb-1 text-sm font-medium text-white">Art Style</label>
+      <select id="artStyle" name="artStyle" class="w-full p-2 text-black rounded-lg">
+        <option value="gta">GTA Style</option>
+        <!-- Add more styles as needed -->
+      </select>
+    </div>
+    <div class="flex-1">
 
 </body>
   <iframe id="perchance-frame" src="https://perchance.org/s7t5uh2quz" style="display:none;"></iframe>
