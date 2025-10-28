@@ -2,573 +2,179 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TheCuratedPixel AI Image Generator</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
       body {
-        font-family: 'Inter', sans-serif;
-      }
-      .tooltip .tooltip-text {
-        visibility: hidden;
-        width: 250px;
-        background-color: #2d3748;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #0b0c1a;
         color: #fff;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
         text-align: center;
-        border-radius: 6px;
-        padding: 8px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -125px;
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-      .tooltip:hover .tooltip-text {
-        visibility: visible;
-        opacity: 1;
-      }
-      .image-card-prompt {
-        -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-      }
-    </style>
-  
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body class="bg-gray-950 text-gray-200">
-    <div class="min-h-screen bg-gray-950 text-gray-200 flex flex-col items-center p-4 sm:p-6 lg:p-8 relative">
-       <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-900 via-gray-950 to-black z-0"></div>
-      <div class="w-full max-w-4xl mx-auto z-10">
-        <header class="text-center mb-8">
-          <h1 class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600" style="font-family: 'Playfair Display', serif;">
-            TheCuratedPixel AI Image Generator
-          </h1>
-          <p class="mt-2 text-gray-400">
-            Craft your vision. Describe anything, choose a style, and watch AI bring it to life.
-          </p>
-        </header>
-
-        <main>
-        <form id="image-generator-form" class="p-6 bg-gray-800/50 rounded-2xl border border-gray-700 shadow-lg space-y-6">
-  <div>
-    <label for="prompt" class="block mb-1 text-sm font-medium text-white">Description</label>
-    <textarea id="prompt" name="prompt" rows="3" class="w-full p-2 text-black rounded-lg"></textarea>
-  </div>
-
-  <div>
-    <label for="negativePrompt" class="block mb-1 text-sm font-medium text-white">Anti-Description (optional)</label>
-    <input type="text" id="negativePrompt" name="negativePrompt" class="w-full p-2 text-black rounded-lg" />
-  </div>
-
-  <div class="flex space-x-4">
-    <div class="flex-1">
-      <label for="artStyle" class="block mb-1 text-sm font-medium text-white">Art Style</label>
-      <select id="artStyle" name="artStyle" class="w-full p-2 text-black rounded-lg">
-        <option value="gta">GTA Style</option>
-        <!-- Add more styles here -->
-      </select>
-    </div>
-    <div class="flex-1">
-      <label for="shape" class="block mb-1 text-sm font-medium text-white">Shape & Ratio</label>
-      <select id="shape" name="shape" class="w-full p-2 text-black rounded-lg">
-        <option value="768x512">Landscape (768×512)</option>
-        <!-- Add more shapes here -->
-      </select>
-    </div>
-    <div class="flex-1">
-      <label for="numImages" class="block mb-1 text-sm font-medium text-white">How many?</label>
-      <select id="numImages" name="numImages" class="w-full p-2 text-black rounded-lg">
-        <option value="2">2 Images</option>
-        <option value="3">3 Images</option>
-        <option value="6">6 Images</option>
-        <option value="9">9 Images</option>
-        <option value="12">12 Images</option>
-        <option value="24">24 Images</option>
-      </select>
-    </div>
-  </div>
-
-  <button type="submit" class="w-full px-4 py-2 font-bold text-white bg-pink-600 rounded-lg hover:bg-pink-700">
-    Generate
-  </button>
-</form>
-
-  <div>
-    <label for="prompt" class="block mb-1 text-sm font-medium text-white">Description</label>
-    <textarea id="prompt" name="prompt" rows="3" class="w-full p-2 text-black rounded-lg" placeholder="e.g. dreamy cyberpunk skyline at dusk"></textarea>
-  </div>
-
-  <div>
-    <label for="negativePrompt" class="block mb-1 text-sm font-medium text-white">Anti-Description (optional)</label>
-    <input type="text" id="negativePrompt" name="negativePrompt" class="w-full p-2 text-black rounded-lg" placeholder="e.g. blurry, text, extra limbs" />
-  </div>
-
-  <div class="flex space-x-4">
-    <div class="flex-1">
-      <label for="artStyle" class="block mb-1 text-sm font-medium text-white">Art Style</label>
-      <select id="artStyle" name="artStyle" class="w-full p-2 text-black rounded-lg">
-        <option value="GTA style">GTA Style</option>
-        <option value="watercolor">Watercolor</option>
-        <option value="anime">Anime</option>
-        <option value="low-poly 3D render">Low-Poly 3D</option>
-        <!-- Add more as needed -->
-      </select>
-    </div>
-
-    <div class="flex-1">
-      <label for="shape" class="block mb-1 text-sm font-medium text-white">Shape & Ratio</label>
-      <select id="shape" name="shape" class="w-full p-2 text-black rounded-lg">
-        <option value="768x512">Landscape (768×512)</option>
-        <option value="512x768">Portrait (512×768)</option>
-        <option value="512x512">Square (512×512)</option>
-      </select>
-    </div>
-
-    <<div class="flex-1">
-  <label for="numImages" class="block mb-1 text-sm font-medium text-white">How many?</label>
-  <select id="numImages" name="numImages" class="w-full p-2 text-black rounded-lg">
-    <option value="2">2 images</option>
-    <option value="3">3 images</option>
-    <option value="6" selected>6 images</option>
-    <option value="9">9 images</option>
-    <option value="12">12 images</option>
-    <option value="24">24 images</option>
-  </select>
-</div>
-
-  </div>
-
-  <button type="submit" class="w-full px-4 py-2 font-bold text-white bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg hover:from-pink-600 hover:to-purple-600">
-    Generate
-  </button>
-
-  <div id="generatedPrompt" class="mt-4 text-sm text-gray-300 whitespace-pre-line"></div>
-</form>
-
-          <div id="error-container" class="hidden mt-8 text-center bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg">
-            <p class="font-semibold">Generation Failed</p>
-            <p id="error-message" class="text-sm mt-1"></p>
-          </div>
-          
-          <div id="image-grid-container"></div>
-
-          <div id="initial-placeholder" class="text-center mt-16 text-gray-500 flex flex-col items-center">
-             <span id="initial-sparkles-icon"></span>
-             <p class="mt-4 text-lg">Your generated images will appear here.</p>
-             <p>Let your creativity flow!</p>
-          </div>
-
-        </main>
-
-        <footer class="text-center mt-16 text-gray-500 text-sm">
-          <p> Reimagined by TheCuratedPixel.</p>
-           <p class="mt-1">
-             <a href="https://perchance.org/s7t5uh2quz" target="_blank" rel="noopener noreferrer" class="hover:text-purple-400 transition-colors">
-                Perchance Profile
-              </a>
-           </p>
-        </footer>
-      </div>
-    </div>
-    <script type="module">
-      
-
-      // --- CONSTANTS ---
-      const ART_STYLES = [
-          { name: 'No Style', prompt: '[prompt]' },
-          { name: 'Moebius Style', prompt: '[prompt], moebius style, vivid color, clear lines', negativePrompt: '[negative], dark shadows, realism, clutter' },
-          { name: 'Simpsons Style', prompt: "[prompt], simpsons style, yellow skin, flat 2D cartoon, thick black outlines, exaggerated expressions, springfield setting, cartoon aesthetic. It's a fun, exaggerated and simplified cartoon artwork inspired by The Simpsons with bold outlines and minimal shading." },
-          { name: 'Rick and Morty Style', prompt: "[prompt], rick and morty style, flat 2D cartoon, thick black outlines, exaggerated expressions, cartoon aesthetic. It's a fun, exaggerated and simplified cartoon artwork inspired by Rick and Morty with bold outlines and minimal shading." },
-          { name: 'Adventure Time Style', prompt: '[prompt], adventure time style, flat 2D cartoon, thick black outlines, exaggerated expressions, cartoon' },
-          { name: 'Looney Tunes', prompt: '[prompt], Looney Tunes style, exaggerated features, flat colors, bold outlines', negativePrompt: '[negative], photorealistic, dull colors, low contrast' },
-          { name: 'GTA Style', prompt: '[prompt], stylized character portrait in the style of GTA loading screen art, bold black outlines, smooth shading, urban background, strong attitude, vice city color palette, 2000s comic realism', negativePrompt: '[negative], cartoon, blurry, messy shading' },
-          { name: 'Natural Realism', prompt: '[prompt], realistic photo-style image, high quality rendering, soft focus, balanced contrast, daylight setting, natural skin tones, minimal retouching', negativePrompt: '[negative], painting, sketch, cartoon, pixelated, overly dark shadows' },
-          { name: 'Casual Realistic Portrait', prompt: '[prompt], high detail realistic portrait, soft natural light, warm tones, smooth skin texture, neutral background, photographic look', negativePrompt: '[negative], harsh lighting, cartoon, abstract, noisy, low detail' },
-          { name: 'Soft Lens Realism', prompt: '[prompt], realistic portrait with soft painterly effect, high quality detail, warm natural lighting, gentle blur on edges, subtle skin texture, muted pastel color palette, vintage camera lens look, calm and intimate mood', negativePrompt: '[negative], harsh sharpness, cartoon, heavy texture, oversaturated colors, glitch effects, low resolution' },
-          { name: 'Crystal Prism Realism', prompt: '[prompt], realistic image with crisp detail and vibrant refractions, high quality, light fractured through crystal prisms, subtle rainbow highlights, clean sharp focus on main subject, luminous atmosphere', negativePrompt: '[negative], dull colors, blurry, cartoon, overexposed, grainy, low detail' },
-          { name: 'Velvet Noir', prompt: '[prompt], moody realistic portrait with deep shadows and soft velvet texture, high detail, low key lighting, rich dark color palette with subtle highlights, cinematic film noir atmosphere, smooth skin tones', negativePrompt: '[negative], bright daylight, cartoon, noisy texture, harsh edges, over-saturated colors' },
-          { name: 'Urban Dreamscape', prompt: '[prompt], realistic high quality scene with surreal urban elements, soft glowing lights, muted colors with occasional neon accents, slightly foggy atmosphere, calm yet mysterious mood', negativePrompt: '[negative], sharp harsh lighting, cartoon, pixelated, overly busy background, low resolution' },
-          { name: 'Organic Brushwork', prompt: '[prompt], realistic portrait with high detail, soft natural lighting, subtle painterly brushstroke textures blending with photographic detail, warm earth tones, intimate and tactile feel', negativePrompt: '[negative], flat colors, cartoon, digital noise, high gloss, harsh outlines' },
-          { name: 'Lustrous Satin Glow', prompt: '[prompt], realistic portrait emphasizing shiny satin fabric, high-quality detail, smooth reflective texture, vivid highlights and soft shadows, silky folds catching light, elegant and glamorous mood, natural skin tones, studio lighting with subtle glow', negativePrompt: '[negative], matte fabric, rough texture, flat lighting, cartoonish, blurry, low resolution, dull colors' },
-          { name: 'Cinematic', prompt: '[prompt], cinematic shot, dynamic lighting, 75mm, Technicolor, Panavision, cinemascope, sharp focus, fine details, 8k, HDR, realism, realistic, key visual, film still, cinematic color grading, depth of field. Overall, it\'s an absolute world-class cinematic masterpiece. It\'s an aesthetically pleasing cinematic shot with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Digital Painting', prompt: '[prompt], breathtaking digital art, trending on artstation, by atey ghailan, by greg rutkowski, by greg tocchini, by james gilleard, 8k, high resolution, best quality. Overall, it\'s an absolute world-class masterpiece digital painting. It\'s an aesthetically pleasing digital painting with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Concept Art', prompt: '[prompt], concept art, digital art, illustration, inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution, world-class masterpiece. Overall, it\'s absolute world-class masterpiece concept art. It\'s an aesthetically pleasing concept art with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: '3D Disney Character', prompt: '3D cartoon Disney character portrait render. [prompt], bokeh, 4k, highly detailed, Pixar render, CGI Animation, Disney, cute big circular reflective eyes, dof, cinematic film, Disney realism, subtle details, breathtaking Pixar short, fine details, close up, sharp focus, HDR, Disney-style octane render, incredible composition, superb lighting and detail, [prompt]. Overall, it\'s an absolute world-class masterpiece 3D Disney-inspired Character. It\'s an aesthetically pleasing 3D Disney-inspired piece with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Anime', prompt: 'anime art of [prompt], world-class masterpiece, 4k, best quality, anime art. Overall, it\'s an absolute world-class masterpiece anime-inspired artwork. It\'s an aesthetically pleasing anime art with impeccable attention to detail and beautiful composition.', negativePrompt: '[negative]' },
-          { name: 'Painted Anime', prompt: '[prompt], art by atey ghailan, painterly anime style at pixiv, art by kantoku, in art style of redjuice/necömi/rella/tiv pixiv collab, your name anime art style, masterpiece digital painting, exquisite lighting and composition, inspired by wlop art style, 8k, sharp, very detailed, high resolution, illustration. Overall, it\'s an absolute world-class masterpiece painterly anime-inspired digital art. It\'s an aesthetically pleasing painterly anime-inspired digital artwork with impeccable attention to detail and impressive composition. ^2', negativePrompt: '[negative]' },
-          { name: 'Fantasy Painting', prompt: '[prompt], d&d, fantasy, highly detailed, digital painting, artstation, sharp focus, fantasy art, illustration, 8k, in the style of greg rutkowski. It\'s an absolute world-class masterpiece artwork. It\'s an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Studio Ghibli', prompt: 'Studio Ghibli style artwork of [prompt], Studio Ghibli style art film still, sharp, very detailed, high resolution, inspired by Hayao Miyazaki, anime, film still from Spirited Away. In the style of Kiki Delivery Service, with a similar art style to Princess Mononoke. Aesthetically similar to My Neighbor Totoro\'s art style. Overall, it\'s an absolute world-class masterpiece Studio Ghibli-inspired artwork. It\'s an aesthetically pleasing classic Studio Ghibli style artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Pixel Art', prompt: '[prompt], best pixel art, neo-geo graphical style, retro nostalgic masterpiece, 128px, 16-bit pixel art, 2D pixel art style, adventure game pixel art, inspired by the art style of hyper light drifter, masterful dithering, superb composition, beautiful palette, exquisite pixel detail', negativePrompt: '[negative]' },
-          { name: 'Watercolor', prompt: '[prompt], (watercolor), high resolution, intricate details, 4k, wallpaper, concept art, watercolor on textured paper. Overall, it\'s an absolute world-class masterpiece watercolor artwork. It\'s an aesthetically pleasing watercolor artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Manga', prompt: '[prompt], incredible hand-drawn manga, black and white, by Takehiko Inoue, by Katsuhiro Otomo and akira toriyama manga, hand-drawn art by rumiko takahashi and Inio Asano, Ken Akamatsu manga art. Overall, it\'s an absolute world-class masterpiece black and white manga-style artwork. It\'s an aesthetically pleasing black and white manga artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Claymation', prompt: '[prompt], claymation, incredible claymation style, kubo and the two strings style art, Missing Link 2019 art style, clay texture, clay animation, stop-motion clay', negativePrompt: '[negative]' },
-          { name: 'Cursed Photo', prompt: 'cursed photo of [prompt], creepy and cursed, absolutely cursed photo, nope nope nope nope, what the actual f, unsettling photo, cursed_thing, cursedimages, no context, cursed image, bad photo, weird photo, very strange, color photo, creepy photo, nightmare fuel', negativePrompt: '[negative]' },
-          { name: 'Traditional Japanese', prompt: '[prompt], in ukiyo-e art style, traditional japanese masterpiece', negativePrompt: '[negative]' },
-          { name: 'Casual Photo', prompt: 'A casual photo of [prompt]. It\'s a casual photo.', negativePrompt: '[negative]' },
-          { name: 'Professional Photo', prompt: '[prompt], {sharp|soft} focus, depth of field, 8k photo, HDR, professional lighting, taken with Canon EOS R5, DSLR, 75mm lens', negativePrompt: '[negative]' },
-          { name: '2D Disney Character', prompt: '2D cartoon Disney character digital art of [prompt]. superb linework, classic 2D Disney style art, inspired by the art styles of Glen Keane and Aaron Blaise, Disney-style character concept with a Disney-style face, trending on artstation, Disney-style version of [prompt]. Overall, it\'s an absolute world-class masterpiece 2D Disney-inspired Character. It\'s an aesthetically pleasing 2D Disney-inspired piece with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Disney Sketch', prompt: 'Glen Keane character concept art black and white pencil sketch of [prompt]. rough pencil sketch by Glen Keane, rough pencil sketch, close up, loose Disney-style character concept art sketch, nice sketchy pencil strokes, Disney character design sketch, pencil texture, a concept art pencil sketch of [prompt], by Glen Keane. Overall, it\'s an charmingly aesthetic and well-composed Disney-style sketch.', negativePrompt: '[negative]' },
-          { name: 'Concept Sketch', prompt: 'black and white technical drawing showcasing a [prompt], annotation details, world-class masterpiece black and white, pencil strokes, annotated technical concept art sketch, pencil texture. Overall, it\'s a charmingly aesthetic and well-composed concept sketch.', negativePrompt: '[negative]' },
-          { name: 'Painterly', prompt: 'painterly digital painting, [prompt], digital painting by Ilya Kuvshinov with painterly brush strokes, by Ilya Kuvshinov, world-class painterly masterpiece. Overall, it\'s an absolute world-class masterpiece painterly digital painting. It\'s an aesthetically pleasing painterly digital painting with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Oil Painting - 70s Pulp', prompt: '1970s vintage pulp art, ultra realistic, fully restored, exquisite lighting and composition, polished, masterpiece, vintage pulp art, by Earle K. Bergey, by Kelly Freas, by Alex Schomburg, by H. J. Ward, glossy pulp art, Amazing Stories, Weird Tales, 8k, high resolution, best quality, hyper-realistic, Mattias Adolfsson style, detailed stylization, [prompt], ultra realistic, wlop-style, exquisite lighting and composition, polished, world-class masterpiece, digitally enhanced, breathtaking shot, subtle details, superb quality, art by Kuvshinov, Kuvshinov style, detailed stylization. Overall, it\'s an absolute world-class masterpiece artwork. It\'s an aesthetically pleasing restored 1970s vintage pulp art with impeccable attention to detail and impressive composition. It has perfect contrast and color balance. Almost photorealism.', negativePrompt: '[negative], scratches, faded, washed out, grainy, dirty' },
-          { name: 'Drawn Anime', prompt: 'anime-style illustration with perfect clean lines, illustration of [prompt], anime drawing/art, bold linework, illustration, cel shaded, anime-style digital illustration. It\'s an anime-inspired 2D-style anime illustration. Aesthetic high-skill, professional anime illustration, which looks like a screencap from an anime series. It has clean line work and a pleasant, appealing drawn aesthetic style. Overall, it\'s a world-class illustration with flawless line work, perfect composition, and impeccable attention to detail.', negativePrompt: '[negative]' },
-          { name: 'Anime Screencap', prompt: 'Anime screencap, [prompt]. It\'s an anime screencap from a popular anime. Beautiful visual quality, remastered, extremely high quality, very aesthetic, high production value, high-skill masterpiece. The image shows impeccable and beautiful composition and contrast. It\'s an exquisite anime screencap style image.', negativePrompt: '[negative], faded, washed out, low quality' },
-          { name: 'Cute Anime', prompt: 'adorable, cute, kawaii, [prompt], cute moe anime character portrait, adorable, featured on pixiv, kawaii moé masterpiece, cuteness overload, very detailed, sooooo adorable. Overall, it\'s an absolute world-class masterpiece anime-inspired artwork. It\'s an aesthetically pleasing anime art with impeccable attention to detail and beautiful composition.', negativePrompt: '[negative]' },
-          { name: 'Soft Anime', prompt: '[prompt], anime masterpiece with soft lighting, gentle intricate style, highly detailed, pixiv, anime art, 4k, art from your name anime, garden of words style art, high quality. Overall, it\'s an absolute world-class masterpiece soft beautiful anime-inspired artwork. It\'s an aesthetically pleasing, soft, beautiful anime art with impeccable attention to detail and beautiful composition.', negativePrompt: '[negative]' },
-          { name: 'Fantasy Landscape', prompt: '[prompt], fantasy matte painting, absolute masterpiece, detailed matte painting by andreas rocha and greg rutkowski, by Brothers Hildebrandt, superb composition, vivid fantasy art, breathtaking fantasy masterpiece. It\'s an absolute world-class masterpiece artwork. It\'s an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Fantasy Portrait', prompt: '[prompt], d&d, fantasy, highly detailed, digital painting, artstation, sharp focus, fantasy art, character art, illustration, 8k, art by artgerm and greg rutkowski. It\'s an absolute world-class masterpiece artwork. It\'s an aesthetically pleasing artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: '50s Enamel Sign', prompt: '50s enamel sign of [prompt], 50s advert enamel sign, masterpiece, authentic vintage enamel sign', negativePrompt: '[negative]' },
-          { name: 'Vintage Comic', prompt: 'comic book style art of [prompt], drawing, by Jack Kirby, Steve Ditko art, 1940\'s, 1950\'s, closeup, color, vintage masterpiece, best quality', negativePrompt: '[negative], worst quality, low resolution, fuzzy, jpeg compression artifacts, blurry, low quality' },
-          { name: 'Franco-Belgian Comic', prompt: 'franco-belgian color comic about [prompt], bande dessinée, franco-belgian comic panel, masterpiece, breathtaking composition, intricate, detailed, best quality', negativePrompt: '[negative]' },
-          { name: 'Tintin Comic', prompt: 'color comic panel in the style of Hergé about [prompt], by Hergé, tintin style, french comic panel, franco-belgian style, masterpiece, high-resolution Hergé style', negativePrompt: '[negative]' },
-          { name: '90s Comic', prompt: '[prompt], 90s comic book artwork, colored comic book panel, classic 90s style, masterpiece', negativePrompt: '[negative], bad photo, greyscale, blurry, bad 3D render, crappy 3D art, barcode, logo, bad photo' },
-          { name: '90s Superhero', prompt: '[prompt], 90s comic book artwork, colored comic book panel, classic 90s style, masterpiece, art by Greg Capullo, art by Jim Lee, art by Todd McFarlane', negativePrompt: '[negative], bad photo, greyscale, blurry, bad 3D render, crappy 3D art, barcode, logo, bad photo' },
-          { name: 'Cute Figurine', prompt: '[prompt], figurine, modern Disney style, octane render, chibi', negativePrompt: '[negative]' },
-          { name: '3D Emoji', prompt: 'masterpiece [prompt] cartoon 3D emoji concept render, close-up, facing forward, matte finish, 3D emoji render, app icon, simple design, new iOS 18.4 style [prompt] emoji render, simple background, centered, world-class masterpiece work of art, crisp render, sharp focus, charmingly aesthetic design, 4k, soft lighting, masterpiece emoji-style figurine 3D render, pure white background', negativePrompt: '[negative]' },
-          { name: 'Illustration', prompt: 'breathtaking illustration of [prompt], illustration, masterpiece, breathtaking illustration. Overall, it\'s an absolute world-class masterpiece illustration. It\'s an aesthetically pleasing illustration with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Cute Illustration', prompt: 'A cute cartoon showing [prompt], in a soft, cute, minimalist, webcomic-style illustration. Line art is somewhat bold but gentle, with clean lines, and subtle variation. Colors are soft, flat, with gentle pastel tones. No shading except for light inner shadows or simple highlights. The background is plain white or contains a light wash of color with subtle textured style. The overall scene is wholesome and endearing like a page from a Liz Climo comic. Composition is centered with space around the character, evoking authentic warmth through the wholesome, soft, web comic style. It\'s an aesthetically pleasing masterpiece, showing high skill in evoking an authentic and beautifully minimalist style.', negativePrompt: '[negative]' },
-          { name: 'Flat Illustration', prompt: '[prompt], illustration, flat, 2D, vector art, masterpiece, made with adobe illustrator, behance competition winner, trending on dribble, 4k, high resolution, crisp lines. Overall, it\'s an absolute world-class masterpiece flat-style illustration. It\'s an aesthetically pleasing flat-style illustration with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: '1990s Photo', prompt: '[prompt], 90s home video, nostalgic 90s photo, taken with kodak disposable camera', negativePrompt: '[negative]' },
-          { name: '1980s Photo', prompt: 'famous vintage 80s photo, [prompt], grainy photograph, 80s photo with film grain, Kodacolor II 80s photo with vignetting, retro, r/OldSchoolCool, 80s photo with wear and tear and minor creasing and scratches, vintage color photo', negativePrompt: '[negative]' },
-          { name: '1970s Photo', prompt: 'famous vintage 70s photo, [prompt], grainy photograph, 1970s photo with film grain, 70s photo with vignetting, retro, r/OldSchoolCool, 70s photo, vintage photo', negativePrompt: '[negative]' },
-          { name: '1960s Photo', prompt: 'famous vintage 60s photo, [prompt], grainy photograph, 1960s photo with film grain, 60s photo with vignetting, retro, r/OldSchoolCool, 60s photo, vintage photo', negativePrompt: '[negative]' },
-          { name: '1950s Photo', prompt: 'famous vintage 50s photo, [prompt], grainy photograph, 1950s photo with film grain, 1950s photo with vignetting, retro, r/OldSchoolCool, 1950s photo, vintage photo', negativePrompt: '[negative]' },
-          { name: '1940s Photo', prompt: 'famous vintage 1940s photo, [prompt], grainy photograph, 1940s photo with film grain, 1940s photo with vignetting, retro, r/OldSchoolCool, 1940s photo, vintage photo', negativePrompt: '[negative]' },
-          { name: '1930s Photo', prompt: 'famous vintage 1930s photo, [prompt], grainy photograph, 1930s photo with film grain, 1930s photo with vignetting, retro, r/OldSchoolCool, 1930s photo, vintage photo', negativePrompt: '[negative]' },
-          { name: '1920s Photo', prompt: 'famous vintage 1920s photo, [prompt], 1920s photo, restored photograph, {sepia|black and white}, historical archive photo', negativePrompt: '[negative]' },
-          { name: 'Vintage Pulp Art', prompt: '1970s vintage pulp art, [prompt], vintage pulp art, by Earle K. Bergey, by Kelly Freas, by Alex Schomburg, by H. J. Ward, glossy pulp art, Amazing Stories, Weird Tales, 8k, high resolution, best quality', negativePrompt: '[negative]' },
-          { name: '50s Infomercial Anime', prompt: '[prompt], 1950s infomercial style, delicate linework, paprika anime art style, chromatic aberration glow, 2d painted cel animation, soft focus, 2D pixiv 1950s', negativePrompt: '[negative]' },
-          { name: 'Vintage Anime', prompt: '[prompt], 1990s anime, vintage anime, 90\'s anime style, by hajime sorayama, by greg tocchini, anime masterpiece, pixiv, akira-style art, akira anime art, 4k, high quality. Overall, it\'s an absolute world-class masterpiece vintage anime artwork. It\'s an aesthetically pleasing vintage anime artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Neon Vintage Anime', prompt: '[prompt], neon vintage anime style, 90\'s anime style, 1990s anime, hajime sorayama, greg tocchini, neon vintage anime masterpiece, anime art, 4k, high quality. Overall, it\'s an absolute world-class masterpiece neon vintage anime artwork. It\'s an aesthetically pleasing neon vintage anime artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: '3D Isometric Icon', prompt: '[prompt], 3D isometric render of cute [prompt], 3D app icon, clean isometric design, beautiful design, soft gradient background, soft colors, centered, 3D blender render, masterpiece, best quality, high resolution, 8k octane render, beautiful color scheme, soft smooth lighting, physically based rendering, square image, high polycount', negativePrompt: '[negative]' },
-          { name: 'Flat Style Icon', prompt: '[prompt], creative icon, flat style icon, masterpiece, high resolution, crisp, beautiful composition and color choice, beautiful flat painted style, behance contest-winner, award winning icon illustration, 8k, best quality', negativePrompt: '[negative]' },
-          { name: 'Flat Style Logo', prompt: 'beautiful flat-style logo design depicting [prompt], creative flat-style logo design, trending on dribbble, featured on behance, portfolio piece, minimal flat design, breathtaking graphic design, 8k, high resolution vector logo, plain background, amazingly beautiful logo design, winner of best logo award', negativePrompt: '[negative]' },
-          { name: 'Game Art Icon', prompt: '[prompt], a concept art icon for league of legends, a digital art logo, illustration, league of legends style icon, inspired by wlop style, 8k, dota 2 style icon, fine details, sharp, very detailed icon, high resolution rpg ability/spell/item icon', negativePrompt: '[negative]' },
-          { name: 'Digital Painting Icon', prompt: '[prompt], app logo icon, digital art pictogram icon, trending on artstation, app icon by atey ghailan, app icon by greg rutkowski, app icon by greg tocchini, app icon by james gilleard, 8k, high resolution, best quality', negativePrompt: '[negative]' },
-          { name: 'Concept Art Icon', prompt: '[prompt], a concept art icon, a digital art logo, illustration, league of legends style concept art logo icon, inspired by wlop style, 8k, fine details, sharp, very detailed, high resolution logo icon', negativePrompt: '[negative]' },
-          { name: 'Cute 3D Icon', prompt: '[prompt], a cute 3D icon of [prompt], cartoon 3D icon, very cute shape, stylized octane render, 8k, masterpiece, soooo cute, beautiful cute perfection, beautiful soft lighting, soft colors, centered, high resolution, [prompt], soft gradient background', negativePrompt: '[negative]' },
-          { name: 'Cute 3D Icon Set', prompt: '[prompt], a set of lovely little 3D icons, cute 3D icons, very cute shapes, stylized octane render, 8k, masterpiece, soooo cute, beautiful cute perfection, beautiful soft lighting, soft colors, centered, high resolution, [prompt], cute icon set', negativePrompt: '[negative]' },
-          { name: 'Crayon Drawing', prompt: '[prompt], crayon drawing', negativePrompt: '[negative]' },
-          { name: 'Pencil', prompt: 'black and white pencil drawing, [prompt], black and white, breathtaking pencil illustration, highly detailed, 4k, textured paper, pencil texture, sketch', negativePrompt: '[negative]' },
-          { name: 'Tattoo Design', prompt: 'amazing tattoo design, [prompt], breathtaking tattoo design, incredible tattoo design', negativePrompt: '[negative]' },
-          { name: 'Cartoon', prompt: '[prompt], cartoon-style art, superb linework, nice colors and composition, bold linework, masterpiece, cute art by Dana Terrace, by Rebecca Sugar, by ry-spirit, amazing and wholesome cartoon-style art, cute art style, (trending on artstation)', negativePrompt: '[negative]' },
-          { name: 'Waifu', prompt: '[prompt], waifu character portrait, 1girl, very high resolution, semi-realistic anime art. Intricate and impressive anime artwork with stunningly beautiful composition and style. Overall, it\'s an absolute world-class masterpiece anime artwork. It\'s an aesthetically pleasing waifu artwork with impeccable attention to detail and impressive composition. It\'s an aesthetically pleasing character portrait. It\'s an aesthetically pleasing image. It\'s an aesthetically pleasing image. It\'s an aesthetically pleasing image. It\'s an aesthetically pleasing image.', negativePrompt: '[negative]' },
-          { name: 'YuGiOh Art', prompt: 'yugioh card art for [prompt], art by genzoman, by Akina Fujiwara, by rossdraws, yugioh monster, close up, painterly details, breathtaking art, centered, masterpiece, amazing composition. Overall, it\'s an absolute world-class masterpiece "Yu-Gi-Oh!"-inspired artwork. It\'s an aesthetically pleasing Yu-Gi-Oh inspired artwork with impeccable attention to detail and impressive composition.', negativePrompt: '[negative]' },
-          { name: 'Nihonga Painting', prompt: 'japanese nihonga painting about [prompt], Nihonga, ancient japanese painting, intricate, detailed', negativePrompt: '[negative]' },
-      ];
-      const SHAPES = [
-        { name: 'Portrait', resolution: '512x768', aspectRatio: '3:4' },
-        { name: 'Square', resolution: '768x768', aspectRatio: '1:1' },
-        { name: 'Landscape', resolution: '768x512', aspectRatio: '4:3' },
-      ];
-      const IMAGE_COUNTS = [2, 3, 6, 9, 12, 24];
-      const RANDOM_DESCRIPTIONS = [
-        'A mystical fox spirit in a moonlit bamboo forest, close-up portrait',
-        'A cyberpunk warrior with neon tattoos in a rain-soaked city alley, cinematic',
-        'An ethereal mermaid queen on a throne of coral, underwater fantasy',
-        'A stoic steampunk inventor tinkering with a clockwork dragon, detailed workshop',
-        'A graceful elf archer poised on a tree branch in an ancient, glowing forest',
-        'A battle-hardened orc chieftain overlooking a desolate wasteland at sunset',
-        'A whimsical gnome botanist tending to glowing, oversized mushrooms',
-        'A celestial goddess adorned with stars, floating in a cosmic nebula',
-        'A rugged space pirate captain on the bridge of his starship',
-        'A serene druid surrounded by spirit animals in a sun-dappled clearing',
-      ];
-      const MODEL_NAME = 'imagen-4.0-generate-001';
-      const SUPPORTED_CHUNK_SIZES = [16, 8, 4, 3, 2, 1];
-
-      // --- ICONS ---
-      const DownloadIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>`;
-      const SparklesIcon = (className = "h-6 w-6") => `<svg xmlns="http://www.w3.org/2000/svg" class="${className}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>`;
-      const InfoIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
-      const DiceIcon = () => `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.121 15.536A9.004 9.004 0 015.536 6.879m9.586 8.657a9.004 9.004 0 00-8.657-9.586m11.314 4.243a9.002 9.002 0 00-4.243-4.243m4.243 4.243L15.536 6.88M6.88 15.536l-4.243-4.243" /><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 4.5l15 15" /><circle cx="12" cy="12" r="2" /><circle cx="6" cy="6" r="1" /><circle cx="18" cy="18" r="1" /></svg>`;
-      const LoadingSpinner = (className = 'h-12 w-12 text-purple-400') => `<svg class="animate-spin ${className}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
-      
-     
+        padding: 2rem;
+        background: #0b0c1a;
       }
 
-      // --- DOM ELEMENTS ---
-      const form = document.getElementById('image-generator-form');
-      const generateBtn = document.getElementById('generate-btn');
-      const promptTextarea = document.getElementById('description');
-      const negativePromptInput = document.getElementById('negative');
-      const artStyleSelect = document.getElementById('artStyle');
-      const shapeSelect = document.getElementById('shape');
-      const numImagesSelect = document.getElementById('numImages');
-      const randomPromptBtn = document.getElementById('random-prompt-btn');
-      const imageGridContainer = document.getElementById('image-grid-container');
-      const initialPlaceholder = document.getElementById('initial-placeholder');
-      const errorContainer = document.getElementById('error-container');
-      const errorMessageEl = document.getElementById('error-message');
+      header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        color: #e879f9;
+      }
 
-      // --- UI RENDERING ---
-      function setButtonLoading(isLoading) {
-        if (isLoading) {
-          generateBtn.disabled = true;
-          generateBtn.innerHTML = `
-            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span>Generating...</span>`;
-        } else {
-          generateBtn.disabled = false;
-          generateBtn.innerHTML = `${SparklesIcon()} <span>Generate</span>`;
+      header p {
+        color: #cbd5e1;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .form-container {
+        background: #111827;
+        border-radius: 10px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 800px;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+
+      textarea,
+      select,
+      input[type="text"] {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .form-row > div {
+        flex: 1;
+      }
+
+      .pulse-glow-btn:not(:disabled) {
+        animation: pulse-glow 2.5s infinite ease-in-out;
+      }
+
+      @keyframes pulse-glow {
+        0%, 100% {
+          box-shadow: 0 0 5px #c084fc, 0 0 10px #c084fc, 0 0 15px #c084fc, 0 0 20px #e9d5ff;
+        }
+        50% {
+          box-shadow: 0 0 10px #d8b4fe, 0 0 20px #d8b4fe, 0 0 30px #d8b4fe, 0 0 40px #f3e8ff;
         }
       }
 
-      function createImageCard(image) {
-          const card = document.createElement('div');
-          card.className = "group relative aspect-w-1 aspect-h-1 overflow-hidden rounded-lg bg-gray-800 border border-gray-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20";
-          
-          const img = document.createElement('img');
-          img.src = image.src;
-          img.alt = image.prompt;
-          img.className = "w-full h-full object-cover";
-
-          const overlay = document.createElement('div');
-          overlay.className = "absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4";
-          
-          const promptText = document.createElement('p');
-          promptText.className = "text-xs text-gray-300 text-center mb-4 overflow-y-auto max-h-[80%] p-1 rounded bg-black/30 image-card-prompt";
-          promptText.textContent = image.prompt;
-
-          const downloadBtn = document.createElement('button');
-          downloadBtn.className = "p-3 bg-white/20 text-white rounded-full backdrop-blur-sm hover:bg-white/30 transition-colors";
-          downloadBtn.setAttribute('aria-label', 'Download image');
-          downloadBtn.innerHTML = DownloadIcon();
-          downloadBtn.onclick = () => {
-              const link = document.createElement('a');
-              link.href = image.src;
-              const promptSnippet = image.prompt.split(',')[0].slice(0, 30).replace(/[^a-z0-9]/gi, '_').toLowerCase();
-              link.download = `thecuratedpixel-ai-art-${promptSnippet}-${Date.now()}.jpeg`;
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-          };
-
-          overlay.appendChild(promptText);
-          overlay.appendChild(downloadBtn);
-          card.appendChild(img);
-          card.appendChild(overlay);
-          return card;
+      button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        background: linear-gradient(to right, #ec4899, #a855f7);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        width: 100%;
       }
 
-      function renderGrid(elements) {
-        imageGridContainer.innerHTML = `
-          <div class="mt-10">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            </div>
+      #output {
+        text-align: center;
+        padding: 2rem;
+        color: #94a3b8;
+      }
+
+      footer {
+        text-align: center;
+        color: #64748b;
+        margin-bottom: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>TheCuratedPixel AI Image Generator</h1>
+      <p>Craft your vision. Describe anything, choose a style, and watch AI bring it to life.</p>
+    </header>
+
+    <div class="form-container">
+      <form id="image-form">
+        <div class="form-group">
+          <label for="prompt">Description</label>
+          <textarea id="prompt" name="prompt" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="negative_prompt">Anti-Description (optional)</label>
+          <input type="text" id="negative_prompt" name="negative_prompt" />
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="style">Art Style</label>
+            <select id="style" name="style">
+              <option value="GTA Style">GTA Style</option>
+              <!-- Add more styles here -->
+            </select>
           </div>
-        `;
-        const grid = imageGridContainer.querySelector('.grid');
-        elements.forEach(el => grid.appendChild(el));
-      }
-
-      function renderLoading(numImages) {
-        initialPlaceholder.classList.add('hidden');
-        imageGridContainer.innerHTML = `
-          <div class="mt-10 text-center">
-            <div class="flex justify-center mb-4">${LoadingSpinner()}</div>
-            <p class="text-lg text-gray-400">Conjuring pixels... this might take a moment.</p>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
-              ${Array.from({ length: numImages }).map(() => `<div class="aspect-w-1 aspect-h-1 rounded-lg bg-gray-800 animate-pulse"></div>`).join('')}
-            </div>
+          <div>
+            <label for="ratio">Shape & Ratio</label>
+            <select id="ratio" name="ratio">
+              <option value="768x512">Landscape (768×512)</option>
+              <!-- Add more ratios -->
+            </select>
           </div>
-        `;
-      }
-      
-      function renderError(message) {
-        errorContainer.classList.remove('hidden');
-        errorMessageEl.textContent = message;
-      }
-      
-      function clearUI() {
-        imageGridContainer.innerHTML = '';
-        errorContainer.classList.add('hidden');
-        initialPlaceholder.classList.add('hidden');
-      }
+          <div>
+            <label for="count">How many?</label>
+            <select id="count" name="count">
+              <option value="1">1 image</option>
+              <option value="2">2 images</option>
+              <option value="6">6 images</option>
+              <!-- Add more counts -->
+            </select>
+          </div>
+        </div>
+        <button type="submit" id="generate-btn" class="pulse-glow-btn">Generate</button>
+      </form>
+    </div>
 
-      // --- INITIALIZATION ---
-      document.addEventListener('DOMContentLoaded', () => {
-        // Populate selects
-        artStyleSelect.innerHTML = ART_STYLES.map(style => `<option value="${style.name}">${style.name}</option>`).join('');
-        shapeSelect.innerHTML = SHAPES.map(shape => `<option value="${shape.name}">${shape.name} (${shape.resolution})</option>`).join('');
-        numImagesSelect.innerHTML = IMAGE_COUNTS.map(count => `<option value="${count}">${count} Images</option>`).join('');
-        
-        // Set default values
-        shapeSelect.value = SHAPES[1].name;
-        numImagesSelect.value = IMAGE_COUNTS[2];
-        
-        // Set initial button state
-        setButtonLoading(false);
+    <div id="output">
+      <p>Your generated images will appear here.</p>
+      <p>Let your creativity flow!</p>
+    </div>
 
-        // Set initial icons
-        document.getElementById('dice-icon-container').innerHTML = DiceIcon();
-        document.getElementById('info-icon-container').innerHTML = InfoIcon();
-        document.getElementById('initial-sparkles-icon').innerHTML = SparklesIcon("h-10 w-10 text-gray-600");
-        
-        // Placeholder rotation
-        let placeholderInterval = setInterval(() => {
-          const currentIndex = RANDOM_DESCRIPTIONS.indexOf(promptTextarea.placeholder);
-          const nextIndex = (currentIndex + 1) % RANDOM_DESCRIPTIONS.length;
-          promptTextarea.placeholder = RANDOM_DESCRIPTIONS[nextIndex];
-        }, 4000);
-        promptTextarea.placeholder = RANDOM_DESCRIPTIONS[0];
-        
-        // --- EVENT LISTENERS ---
-        randomPromptBtn.addEventListener('click', () => {
-            const randomPrompt = RANDOM_DESCRIPTIONS[Math.floor(Math.random() * RANDOM_DESCRIPTIONS.length)];
-            promptTextarea.value = randomPrompt;
-        });
+    <footer>
+      <p>Reimagined by TheCuratedPixel.<br/>Perchance Profile</p>
+    </footer>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const prompt = promptTextarea.value.trim();
-            if (!prompt) {
-                alert('Please enter a description.');
-                return;
-            }
+    <script>
+      // Your form submission logic here
+      document.getElementById('image-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn = document.getElementById('generate-btn');
+        btn.disabled = true;
+        btn.textContent = 'Generating...';
 
-            const options = {
-              prompt,
-              negativePrompt: negativePromptInput.value,
-              artStyle: ART_STYLES.find(s => s.name === artStyleSelect.value),
-              shape: SHAPES.find(s => s.name === shapeSelect.value),
-              numImages: Number(numImagesSelect.value),
-            };
-
-            clearUI();
-            setButtonLoading(true);
-            renderLoading(options.numImages);
-
-            try {
-              const images = await generateImages(options);
-              const imageElements = images.map(createImageCard);
-              renderGrid(imageElements);
-            } catch (err) {
-              renderError(err.message);
-            } finally {
-              setButtonLoading(false);
-            }
-        });
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.textContent = 'Generate';
+          document.getElementById('output').innerHTML = '<p><strong>[Demo]</strong> Image generated successfully!</p>';
+        }, 2000);
       });
     </script>
-  <script type="module" src="/index.tsx"></script>
-    <!-- Load Perchance Plugin -->
-<script type="text/javascript" src="https://perchance.org/js/plugin-loader.js"></script>
-<script type="text/perchance">
-  generateHTML = {import:s7t5uh2quz}
-</script>
-<script type="module">
-  // This loads your generator framework from Perchance
-  generateHTML = {import:t2i-framework-plugin-v2}  // Perchance image generator framework
-  generatorStats = {import:generator-stats-plugin}
-  background = {import:background-image-plugin}
-  font = {import:font-plugin}
-  tooltip = {import:tooltip-plugin}
-  favicon = {import:favicon-plugin}
-  createMediaGallery = {import:create-media-gallery-plugin}
-
-  // Configuration
-  settings = {
-    framework: {
-      promptInputSelector: "#prompt",
-      negativePromptInputSelector: "#antiPrompt",
-      styleSelector: "#style",
-      shapeSelector: "#shape",
-      numberSelector: "#number",
-      generateButtonSelector: "#generate-btn",
-      outputContainerSelector: "#image-output"
-    },
-    plugin: {
-      userId: "thecuratedpixel", // your Perchance username
-      pluginName: "t2i"
-    }
-  }
-</script>
-<script>
-document.getElementById("image-generator-form").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const prompt = document.getElementById("prompt").value;
-  const negativePrompt = document.getElementById("negativePrompt").value;
-  const artStyle = document.getElementById("artStyle").value;
-  const shape = document.getElementById("shape").value;
-  const numImages = document.getElementById("numImages").value;
-
-  const iframe = document.getElementById("perchance-frame");
-  const perchanceWindow = iframe.contentWindow;
-
-  const combinedPrompt = `[${prompt}] | Style: ${artStyle} | Shape: ${shape} | Images: ${numImages}` + 
-                         (negativePrompt ? ` | Exclude: ${negativePrompt}` : "");
-
-  // Push prompt into Perchance and trigger generate
-  perchanceWindow.input_prompt = combinedPrompt;
-  if (perchanceWindow.generate) perchanceWindow.generate();
-});
-</script>
-<script>
-  document.getElementById("image-generator-form").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const prompt = document.getElementById("prompt").value.trim();
-    const negative = document.getElementById("negativePrompt").value.trim();
-    const artStyle = document.getElementById("artStyle").value;
-    const shape = document.getElementById("shape").value;
-    const numImages = document.getElementById("numImages").value;
-
-    if (!prompt) {
-      alert("Please enter a description.");
-      return;
-    }
-
-    const combinedPrompt = `Prompt: ${prompt} | Art Style: ${artStyle} | Shape: ${shape} | Images: ${numImages}` + 
-                           (negative ? ` | Exclude: ${negative}` : "");
-
-    const iframe = document.getElementById("perchance-frame");
-    const perchanceWindow = iframe.contentWindow;
-
-    try {
-      perchanceWindow.input_prompt = combinedPrompt;
-      if (typeof perchanceWindow.generate === "function") {
-        perchanceWindow.generate();
-      } else {
-        alert("Generate function not found in the embedded generator.");
-      }
-    } catch (e) {
-      console.error("Could not communicate with Perchance iframe:", e);
-    }
-  });
-</script>
-<form id="image-generator-form" class="p-6 bg-gray-800/50 rounded-2xl border border-gray-700 shadow-lg space-y-6">
-  <div>
-    <label for="prompt" class="block mb-1 text-sm font-medium text-white">Description</label>
-    <textarea id="prompt" name="prompt" rows="3" class="w-full p-2 text-black rounded-lg"></textarea>
-  </div>
-
-  <div>
-    <label for="negativePrompt" class="block mb-1 text-sm font-medium text-white">Anti-Description (optional)</label>
-    <input type="text" id="negativePrompt" name="negativePrompt" class="w-full p-2 text-black rounded-lg" />
-  </div>
-
-  <div class="flex space-x-4">
-    <div class="flex-1">
-      <label for="artStyle" class="block mb-1 text-sm font-medium text-white">Art Style</label>
-      <select id="artStyle" name="artStyle" class="w-full p-2 text-black rounded-lg">
-        <option value="gta">GTA Style</option>
-        <!-- Add more styles as needed -->
-      </select>
-    </div>
-    <div class="flex-1">
-
-</body>
-  <iframe id="perchance-frame" src="https://perchance.org/s7t5uh2quz" style="display:none;"></iframe>
-
+  </body>
 </html>
